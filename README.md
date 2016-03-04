@@ -1,0 +1,2 @@
+# AutoBuildDocFromDB
+使用SQL文件自动生成markdown格式的数据库文档。
