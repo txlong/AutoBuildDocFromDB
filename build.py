@@ -1,9 +1,12 @@
 # -*- coding:utf-8 -*-
 # Author : 我才是二亮 (unstring@163.com)
-import sys
+import sys, os.path
 from FileParserClass import FileParser
+from MarkdownBuildClass import MarkDownBuild
 
 if __name__ == '__main__':
+
+    md_dir = './md/'
 
     content = ''
     file = ''
@@ -11,7 +14,6 @@ if __name__ == '__main__':
         exit('参数有误,请使用-help参数,了解文件使用规则')
 
     dir = sys.argv[1]
-
     try:
         file = open(dir)
     except IOError, e:
@@ -31,4 +33,24 @@ if __name__ == '__main__':
     # 解析出每张表字段情况并与表名表详情组合
     table_data = file_parser.parserColumn(table_list, table_name)
 
-    print table_data
+    markdown_build = MarkDownBuild()
+
+    text = markdown_build.buildMarkdown(table_data)
+    file_name = os.path.basename(dir).split('.')[0] + '.md'
+    # 写文件
+    file_obj = ''
+    try:
+        file_obj = open(md_dir + file_name, 'w')
+    except:
+        exit('文件创建失败')
+
+    try:
+        file_obj.write(text)
+    except:
+        exit('文件写入失败')
+    finally:
+        file_obj.close()
+
+    print '数据库文档已经成功创建,文件在md目录下.'
+
+

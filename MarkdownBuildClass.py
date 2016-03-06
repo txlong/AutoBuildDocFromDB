@@ -14,4 +14,5 @@ class MarkDownBuild:
             text += self.table_header
             for column in table[1]:
                 text = text + '|' + column[0] + '|' + column[1] + '|' + column[2] + '|\n'
+            text += '\n'
         return text
