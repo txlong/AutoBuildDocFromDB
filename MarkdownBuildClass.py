@@ -1,6 +1,17 @@
 # -*- coding:utf-8 -*-
-import re
-content = "`id` mediumint(8) NOT NULL AUTO_INCREMENT COMMENT='hello',"
-pattern = r'NOT(.*?)AUTO_INCREMENT'
-print re.match(pattern, content.strip()).group(1)
-# print(re.match(pattern, content).group(1))
+class MarkDownBuild:
+
+    table_header = '|字段名称|字段类型|字段含义|\n|:--:|:--:|:--:|\n'
+    table_content_template = '|%s|%s|%s|\n'
+
+    def __init__(self):
+        pass
+
+    def buildMarkdown(self, table_data):
+        text = '# 数据库文档\n\n'
+        for table in table_data:
+            text = text + '## ' + table[0][0] + '表(' + table[0][1] + ')\n'
+            text += self.table_header
+            for column in table[1]:
+                text = text + '|' + column[0] + '|' + column[1] + '|' + column[2] + '|\n'
+        return text
