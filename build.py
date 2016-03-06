@@ -11,7 +11,7 @@ if __name__ == '__main__':
     content = ''
     file = ''
     if (len(sys.argv) < 2):
-        exit('参数有误,请使用-help参数,了解文件使用规则')
+        exit('请输入SQL文件路径')
 
     dir = sys.argv[1]
     try:
