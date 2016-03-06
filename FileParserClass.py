@@ -48,6 +48,8 @@ class FileParser:
             content = re.match(self.table_content_pattern, dirty_table_content[i].split(' ')[-1])
             if content != None:
                 tmp.append(content.group(1))
+            else:
+                tmp.append('')
             table_name.append(tmp)
         return table_name
 
