@@ -9,7 +9,7 @@ class FileParser:
     # 定义分离SQL文件匹配模式
     # table_pattern = r'CREATE TABLE([\s\S]*?)LOCK TABLES'    #分离表
     table_pattern = r'CREATE TABLE([\s\S]*?);'
-    name_pattern = r'`(.*?)`' # 获取表名称或字段名称
+    name_pattern = r'.*?`(.*?)`.*?' # 获取表名称或字段名称
     table_content_pattern = r'COMMENT=\'(.*?)\''   #获取表详情
 
     def separatTable(self, content):
@@ -40,8 +40,10 @@ class FileParser:
         for i in range(len(dirty_table_name)):
             tmp = []
             # 从脏数据中取出表名
+            # print dirty_table_name[i].strip()
             name = re.match(self.name_pattern, dirty_table_name[i].strip())
             if name != None:
+                # print name.group(1)
                 tmp.append(name.group(1))
 
             # 从脏数据中取出表含义
@@ -81,15 +83,17 @@ class FileParser:
                     column_name = column_name.group(1)
                     column_type = tmp_list[1]
                     # TODO:此处无法正确匹配,使用取列表最后一项,可能会有bug
-                    # column_comment = re.match(r'COMMENT \'(.*?)\'', column.strip())
-                    # if column_comment is not None:
-                    #     column_comment = column_comment.group(1)
-                    # else:
-                    #     column_comment = ''
-                    if '\'' in tmp_list[-1]:
-                        column_comment = tmp_list[-1][1:-2]
+                    column_comment = re.match(r'.*?COMMENT \'(.*?)\'.*?', column.strip())
+                    if column_comment is not None:
+                        column_comment = column_comment.group(1)
                     else:
                         column_comment = ''
+
+
+                    # if '\'' in tmp_list[-1]:
+                    #     column_comment = tmp_list[-1][1:-2]
+                    # else:
+                    #     column_comment = ''
                     column_tmp.append([column_name, column_type, column_comment])
             table_data.append([table_name[i], column_tmp])
         return table_data
