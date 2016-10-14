@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 class MarkDownBuild:
 
-    table_header = '|字段名称|字段类型|字段含义|\n|:--:|:--:|:--:|\n'
+    table_header = '|字段名称|字段类型|字段含义|\n|:---:|:---:|:---:|\n'
     table_content_template = '|%s|%s|%s|\n'
 
     def __init__(self):
