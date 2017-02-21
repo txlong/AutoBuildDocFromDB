@@ -9,8 +9,13 @@ class MarkDownBuild:
 
     def buildMarkdown(self, table_data):
         text = '# 数据库文档\n\n'
+        text += '<span id="返回顶部"></span>\n\n## 数据表列表\n\n'
         for table in table_data:
-            text = text + '## ' + table[0][0] + '表(' + table[0][1] + ')\n'
+            text = text + '* [' + table[0][0] + '(' + table[0][1] + ')](#' + table[0][0] + '_pointer)\n'
+        text += '## 数据表说明\n\n'
+        for table in table_data:
+            text = text + '<span id="'+table[0][0]+'_pointer"></span>\n\n'
+            text = text + '* ' + table[0][0] + '表(' + table[0][1] + ')[↑](#返回顶部)\n'
             text += self.table_header
             for column in table[1]:
                 text = text + '|' + column[0] + '|' + column[1] + '|' + column[2] + '|\n'
