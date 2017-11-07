@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 # Author : 我才是二亮 (unstring@163.com)
-import sys, os.path
+import sys
+import os.path
 from FileParserClass import FileParser
 from MarkdownBuildClass import MarkDownBuild
 
@@ -10,18 +11,19 @@ if __name__ == '__main__':
 
     content = ''
     file = ''
-    if (len(sys.argv) < 2):
+    if len(sys.argv) < 2:
         exit('请输入SQL文件路径')
 
     dir = sys.argv[1]
     try:
         file = open(dir)
-    except IOError, e:
-        exit(e)
+    except IOError as err:
+        exit(err)
     try:
+        # sql文件为GBK编码
         content = file.read()
-    except:
-        exit('文件读取失败')
+    except OSError as err:
+        exit('文件读取失败:' + err)
     finally:
         file.close()
 
@@ -51,6 +53,4 @@ if __name__ == '__main__':
     finally:
         file_obj.close()
 
-    print '数据库文档已经成功创建,文件在md目录下.'
-
-
+    print('数据库文档已经成功创建,文件在md目录下.')
